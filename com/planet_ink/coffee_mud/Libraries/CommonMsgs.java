@@ -1275,6 +1275,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			if((lookCode!=LOOK_BRIEFOK)||(!mob.isAttributeSet(MOB.Attrib.BRIEF)))
 			{
 				String roomDesc=room.description(mob);
+				roomDesc += "\r\n";
 				if(lookCode==LOOK_LONG)
 				{
 					Vector<String> keyWords=null;
