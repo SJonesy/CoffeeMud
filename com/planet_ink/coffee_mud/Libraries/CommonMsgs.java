@@ -1264,12 +1264,12 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 					int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
 					final Vector<String> list=new Vector<String>();
 					awarenessA.invoke(mob, list, mobLocR, true, awareRange);
-					map += "*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*";
+					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
 					for(final String mapLine : list)
 					{
-						map += "| " + mapLine + " |\r\n";
+						map += "^L| " + mapLine + " ^L|\r\n";
 					}
-					map += "*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*";
+					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
 				}
 			}
 			finalLookStr.append(map);
