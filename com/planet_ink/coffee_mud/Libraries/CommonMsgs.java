@@ -1253,22 +1253,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
-			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
-					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
-			{
-				if(awarenessA==null)
-					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
-				if(awarenessA!=null)
-				{
-					final Vector<String> list=new Vector<String>();
-					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
-					for(final String o : list)
-					{
-						sess.setIdleTimers();
-						sess.colorOnlyPrintln(o, true); // the zero turns off stack
-					}
-				}
-			}
 			if((lookCode!=LOOK_BRIEFOK)||(!mob.isAttributeSet(MOB.Attrib.BRIEF)))
 			{
 				String roomDesc=room.description(mob);
@@ -1320,6 +1304,23 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 						}
 					}
 				}
+
+				if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
+						&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
+				{
+					if(awarenessA==null)
+						awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
+					if(awarenessA!=null)
+					{
+						final Vector<String> list=new Vector<String>();
+						awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
+						for(final String o : list)
+						{
+							roomDesc += o + "\r\n"; // the zero turns off stack
+						}
+					}
+				}
+
 				if((CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_PARAGRAPH)
 				||(CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_MIXED))
 					roomDesc += getRoomExitsParagraph(mob,room);
@@ -1328,7 +1329,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 				if((!mob.isMonster())&&(sess.getClientTelnetMode(Session.TELNET_MXP)))
 					finalLookStr.append(CMLib.protocol().mxpImage(room," ALIGN=RIGHT H=70 W=70"));
 
-				finalLookStr.append("^N\n\r");
+				finalLookStr.append("^N ");
 			}
 		}
 
