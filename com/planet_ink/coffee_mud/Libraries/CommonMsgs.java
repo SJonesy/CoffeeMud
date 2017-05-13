@@ -1330,7 +1330,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 				if((!mob.isMonster())&&(sess.getClientTelnetMode(Session.TELNET_MXP)))
 					finalLookStr.append(CMLib.protocol().mxpImage(room," ALIGN=RIGHT H=70 W=70"));
 
-				finalLookStr.append("^N ");
+				finalLookStr.append("^N");
 			}
 		}
 
