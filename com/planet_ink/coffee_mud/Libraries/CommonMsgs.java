@@ -1203,6 +1203,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			return; // no need for monsters to build all this data
 
 		final Room room=(Room)msg.target();
+		final Area area=(Area)room.getArea();
 		final Item notItem;
 		final Room mobLocR=mob.location();
 		if((mobLocR!=room)
@@ -1253,24 +1254,19 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
 			String map = "";
-			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
-					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
+			if(area.fetchEffect("Prop_AreaMap") != null)
+			&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
 			{
-				if(awarenessA==null)
-					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
-				if(awarenessA!=null)
+				int lineLength = mob.playerStats().getWrap();
+				int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
+				final Vector<String> list=new Vector<String>();
+				awarenessA.invoke(mob, list, mobLocR, true, awareRange);
+				map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+				for(final String mapLine : list)
 				{
-					int lineLength = mob.playerStats().getWrap();
-					int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
-					final Vector<String> list=new Vector<String>();
-					awarenessA.invoke(mob, list, mobLocR, true, awareRange);
-					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
-					for(final String mapLine : list)
-					{
-						map += "^L| " + mapLine + " ^L|\r\n";
-					}
-					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+					map += "^L| " + mapLine + " ^L|\r\n";
 				}
+				map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
 			}
 			finalLookStr.append(map);
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
