@@ -1312,6 +1312,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 						awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
 					if(awarenessA!=null)
 					{
+						roomDesc += "\r\n";
 						final Vector<String> list=new Vector<String>();
 						awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
 						for(final String o : list)
@@ -1324,7 +1325,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 				if((CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_PARAGRAPH)
 				||(CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_MIXED))
 					roomDesc += getRoomExitsParagraph(mob,room);
-				finalLookStr.append("^L^<RDesc^>" + roomDesc+"^</RDesc^>");
+				finalLookStr.append("^L^<RDesc^>" + roomDesc + "^</RDesc^>");
 
 				if((!mob.isMonster())&&(sess.getClientTelnetMode(Session.TELNET_MXP)))
 					finalLookStr.append(CMLib.protocol().mxpImage(room," ALIGN=RIGHT H=70 W=70"));
@@ -1403,25 +1404,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			mob.tell(L("You can't see anything!"));
 		else
 		{
-			if(compress)
-				finalLookStr.append("\n\r");
-			mob.tell(finalLookStr.toString());
-			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
-			&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
-			{
-				if(awarenessA==null)
-					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
-				if(awarenessA!=null)
-				{
-					final Vector<String> list=new Vector<String>();
-					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
-					for(final String o : list)
-					{
-						sess.setIdleTimers();
-						sess.colorOnlyPrintln(o, true); // the zero turns off stack
-					}
-				}
-			}
 			if(itemsInTheDarkness>0)
 				mob.tell(L("      ^IThere is something here, but it's too dark to make out.^?\n\r"));
 			if(mobsInTheDarkness>1)
