@@ -1266,7 +1266,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 					awarenessA.invoke(mob, list, mobLocR, true, awareRange);
 					for(final String mapLine : list)
 					{
-						map += String.format("%" + lineLength + "s", mapLine + "\r\n");
+						map += mapLine + "\r\n";
 					}
 				}
 			}
