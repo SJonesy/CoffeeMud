@@ -1255,11 +1255,12 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		{
 			String map = "";
 			if(area.fetchEffect("Prop_AreaMap") != null
-			&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
+					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
 			{
 				int lineLength = mob.playerStats().getWrap();
-				int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
+				int awareRange = 5;
 				final Vector<String> list=new Vector<String>();
+				awarenessA = CMClass.getAbility("Skill_RegionalAwareness");
 				awarenessA.invoke(mob, list, mobLocR, true, awareRange);
 				map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
 				for(final String mapLine : list)
