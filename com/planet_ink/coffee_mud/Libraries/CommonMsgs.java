@@ -1404,6 +1404,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			mob.tell(L("You can't see anything!"));
 		else
 		{
+			mob.tell(finalLookStr.toString());
 			if(itemsInTheDarkness>0)
 				mob.tell(L("      ^IThere is something here, but it's too dark to make out.^?\n\r"));
 			if(mobsInTheDarkness>1)
