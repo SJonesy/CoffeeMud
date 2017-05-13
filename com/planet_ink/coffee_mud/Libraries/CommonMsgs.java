@@ -1205,7 +1205,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		final Room room=(Room)msg.target();
 		final Item notItem;
 		final Room mobLocR=mob.location();
-		String map = "";
 		if((mobLocR!=room)
 				&&(mobLocR!=null)
 				&&(mobLocR.getArea() instanceof BoardableShip))
@@ -1253,6 +1252,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		}
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
+			String map = "";
 			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
 					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
 			{
@@ -1260,15 +1260,17 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
 				if(awarenessA!=null)
 				{
-					map += "\r\n";
+					int lineLength = mob.playerStats().getWrap();
+					int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
 					final Vector<String> list=new Vector<String>();
-					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
-					for(final String o : list)
+					awarenessA.invoke(mob, list, mobLocR, true, awareRange);
+					for(String mapLine : list)
 					{
-						map += o + "\r\n"; // the zero turns off stack
+						map += String.format("%" + lineLength, mapLine + "\r\n");
 					}
 				}
 			}
+			finalLookStr.append(map);
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
 			if((lookCode!=LOOK_BRIEFOK)||(!mob.isAttributeSet(MOB.Attrib.BRIEF)))
 			{
@@ -1404,7 +1406,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			mob.tell(L("You can't see anything!"));
 		else
 		{
-			mob.tell(map);
 			mob.tell(finalLookStr.toString());
 			if(itemsInTheDarkness>0)
 				mob.tell(L("      ^IThere is something here, but it's too dark to make out.^?\n\r"));
