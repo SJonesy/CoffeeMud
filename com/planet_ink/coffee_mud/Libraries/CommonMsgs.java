@@ -1254,7 +1254,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
 			String map = "";
-			if(area.fetchEffect("Prop_AreaMap") != null)
+			if(area.fetchEffect("Prop_AreaMap") != null
 			&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
 			{
 				int lineLength = mob.playerStats().getWrap();
