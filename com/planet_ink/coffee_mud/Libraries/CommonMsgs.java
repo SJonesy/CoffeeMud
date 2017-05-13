@@ -1203,6 +1203,14 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			return; // no need for monsters to build all this data
 
 		final Room room=(Room)msg.target();
+		final Item notItem;
+		final Room mobLocR=mob.location();
+		if((mobLocR!=room)
+				&&(mobLocR!=null)
+				&&(mobLocR.getArea() instanceof BoardableShip))
+			notItem=((BoardableShip)mobLocR.getArea()).getShipItem();
+		else
+			notItem=null;
 		int lookCode=LOOK_LONG;
 		if(msg.targetMinor()!=CMMsg.TYP_EXAMINE)
 			lookCode=(msg.sourceMessage()==null)?LOOK_BRIEFOK:LOOK_NORMAL;
@@ -1244,10 +1252,32 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		}
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
+			String map = "";
+			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
+					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
+			{
+				if(awarenessA==null)
+					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
+				if(awarenessA!=null)
+				{
+					int lineLength = mob.playerStats().getWrap();
+					int awareRange = CMProps.getIntVar(CMProps.Int.AWARERANGE);
+					final Vector<String> list=new Vector<String>();
+					awarenessA.invoke(mob, list, mobLocR, true, awareRange);
+					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+					for(final String mapLine : list)
+					{
+						map += "^L| " + mapLine + " ^L|\r\n";
+					}
+					map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+				}
+			}
+			finalLookStr.append(map);
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
 			if((lookCode!=LOOK_BRIEFOK)||(!mob.isAttributeSet(MOB.Attrib.BRIEF)))
 			{
 				String roomDesc=room.description(mob);
+				roomDesc += "\r\n";
 				if(lookCode==LOOK_LONG)
 				{
 					Vector<String> keyWords=null;
@@ -1296,29 +1326,19 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 						}
 					}
 				}
+
 				if((CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_PARAGRAPH)
 				||(CMProps.getIntVar(CMProps.Int.EXVIEW)==CMProps.Int.EXVIEW_MIXED))
 					roomDesc += getRoomExitsParagraph(mob,room);
-				finalLookStr.append("^L^<RDesc^>" + roomDesc+"^</RDesc^>");
+				finalLookStr.append("^L^<RDesc^>" + roomDesc + "^</RDesc^>");
 
 				if((!mob.isMonster())&&(sess.getClientTelnetMode(Session.TELNET_MXP)))
 					finalLookStr.append(CMLib.protocol().mxpImage(room," ALIGN=RIGHT H=70 W=70"));
-				if(compress)
-					finalLookStr.append("^N  ");
-				else
-					finalLookStr.append("^N\n\r\n\r");
+
+				finalLookStr.append("^N");
 			}
 		}
 
-		final Item notItem;
-		final Room mobLocR=mob.location();
-		if((mobLocR!=room)
-		&&(mobLocR!=null)
-		&&(mobLocR.getArea() instanceof BoardableShip))
-			notItem=((BoardableShip)mobLocR.getArea()).getShipItem();
-		else
-			notItem=null;
-		
 		final List<Item> viewItems=new ArrayList<Item>(room.numItems());
 		final List<Item> compressedItems=((compress) || (lookCode==LOOK_LONG)) ? null :  new ArrayList<Item>(1);
 		int itemsInTheDarkness=0;
@@ -1389,27 +1409,7 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			mob.tell(L("You can't see anything!"));
 		else
 		{
-			if(compress)
-				finalLookStr.append("\n\r");
 			mob.tell(finalLookStr.toString());
-			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
-			&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
-			{
-				if(awarenessA==null)
-					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
-				if(awarenessA!=null)
-				{
-					sess.colorOnlyPrintln("", true);
-					final Vector<String> list=new Vector<String>();
-					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
-					for(final String o : list)
-					{
-						sess.setIdleTimers();
-						sess.colorOnlyPrintln(o, true); // the zero turns off stack
-					}
-					sess.colorOnlyPrintln("\n\r", true);
-				}
-			}
 			if(itemsInTheDarkness>0)
 				mob.tell(L("      ^IThere is something here, but it's too dark to make out.^?\n\r"));
 			if(mobsInTheDarkness>1)
