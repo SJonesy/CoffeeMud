@@ -1203,6 +1203,14 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 			return; // no need for monsters to build all this data
 
 		final Room room=(Room)msg.target();
+		final Item notItem;
+		final Room mobLocR=mob.location();
+		if((mobLocR!=room)
+				&&(mobLocR!=null)
+				&&(mobLocR.getArea() instanceof BoardableShip))
+			notItem=((BoardableShip)mobLocR.getArea()).getShipItem();
+		else
+			notItem=null;
 		int lookCode=LOOK_LONG;
 		if(msg.targetMinor()!=CMMsg.TYP_EXAMINE)
 			lookCode=(msg.sourceMessage()==null)?LOOK_BRIEFOK:LOOK_NORMAL;
@@ -1245,6 +1253,22 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		if(CMLib.flags().canBeSeenBy(room,mob))
 		{
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
+			if((CMProps.getIntVar(CMProps.Int.AWARERANGE)>0)
+					&&(!mob.isAttributeSet(MOB.Attrib.AUTOMAP)))
+			{
+				if(awarenessA==null)
+					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
+				if(awarenessA!=null)
+				{
+					final Vector<String> list=new Vector<String>();
+					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
+					for(final String o : list)
+					{
+						sess.setIdleTimers();
+						sess.colorOnlyPrintln(o, true); // the zero turns off stack
+					}
+				}
+			}
 			if((lookCode!=LOOK_BRIEFOK)||(!mob.isAttributeSet(MOB.Attrib.BRIEF)))
 			{
 				String roomDesc=room.description(mob);
@@ -1303,22 +1327,11 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 
 				if((!mob.isMonster())&&(sess.getClientTelnetMode(Session.TELNET_MXP)))
 					finalLookStr.append(CMLib.protocol().mxpImage(room," ALIGN=RIGHT H=70 W=70"));
-				if(compress)
-					finalLookStr.append("^N  ");
-				else
-					finalLookStr.append("^N\n\r\n\r");
+
+				finalLookStr.append("^N\n\r");
 			}
 		}
 
-		final Item notItem;
-		final Room mobLocR=mob.location();
-		if((mobLocR!=room)
-		&&(mobLocR!=null)
-		&&(mobLocR.getArea() instanceof BoardableShip))
-			notItem=((BoardableShip)mobLocR.getArea()).getShipItem();
-		else
-			notItem=null;
-		
 		final List<Item> viewItems=new ArrayList<Item>(room.numItems());
 		final List<Item> compressedItems=((compress) || (lookCode==LOOK_LONG)) ? null :  new ArrayList<Item>(1);
 		int itemsInTheDarkness=0;
@@ -1399,7 +1412,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 					awarenessA=CMClass.getAbility("Skill_RegionalAwareness");
 				if(awarenessA!=null)
 				{
-					sess.colorOnlyPrintln("", true);
 					final Vector<String> list=new Vector<String>();
 					awarenessA.invoke(mob, list, mobLocR, true, CMProps.getIntVar(CMProps.Int.AWARERANGE));
 					for(final String o : list)
@@ -1407,7 +1419,6 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 						sess.setIdleTimers();
 						sess.colorOnlyPrintln(o, true); // the zero turns off stack
 					}
-					sess.colorOnlyPrintln("\n\r", true);
 				}
 			}
 			if(itemsInTheDarkness>0)
