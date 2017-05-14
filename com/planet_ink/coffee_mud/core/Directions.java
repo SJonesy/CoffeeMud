@@ -90,13 +90,13 @@ public class Directions
 	private final static String	DEFAULT_DIRECTION_7_SHIPNAMES	= "Foreward, Aft, Starboard, Port, Above, or Below";
 	private final static String	DEFAULT_DIRECTION_11_SHIPNAMES	= "Foreward, Aft, Starboard, Port, Foreward Starboard, Foreward Port, "
 																+ "Aft Starboard, Aft Port, Above, or Below";
-	private final static String DEFAULT_DIRECTIONS_LIST_COMPASS	= "North,South,East,West,Up,Down,There,Northeast,Northwest,Southeast,Southwest";
-	private final static String DEFAULT_DIRECTIONS_LIST_SHIP	= "Foreward,Aft,Starboard,Portside,Above,Below,There,Fore Starboard,Fore Portside,Aft Starboard,Aft Portside";
+	private final static String DEFAULT_DIRECTIONS_LIST_COMPASS	= "North,South,East,West,Up,Down,Gate,Northeast,Northwest,Southeast,Southwest";
+	private final static String DEFAULT_DIRECTIONS_LIST_SHIP	= "Foreward,Aft,Starboard,Portside,Above,Below,Gate,Fore Starboard,Fore Portside,Aft Starboard,Aft Portside";
 	private final static String DEFAULT_FROM_DIR_LIST_COMPASS	= "the north,the south,the east,the west,above,below,out of nowhere,the northeast,the northwest,the southeast,the southwest";
 	private final static String DEFAULT_FROM_DIR_LIST_SHIP		= "foreward,aft,starboard,portside,above,below,out of nowhere,forward starboard,forward portside,aft starboard,aft portside";
 	private final static String DEFAULT_OF_DIR_LIST_COMPASS		= "north of,south of,east of,west of,above,below,,northeast of,northwest of,southeast of,southwest of";
-	private final static String DEFAULT_TO_DIR_LIST_COMPASS		= "to the north,to the south,to the east,to the west,above you,below,there,to the northeast,to the northwest,to the southeast,to the southwest";
-	private final static String DEFAULT_TO_DIR_LIST_SHIP		= "to foreward,to aft,to starboard,to portside,above you,below,there,to forward starboard,to forward port,to aft starboard,to aft portside";
+	private final static String DEFAULT_TO_DIR_LIST_COMPASS		= "to the north,to the south,to the east,to the west,above you,below,Gate,to the northeast,to the northwest,to the southeast,to the southwest";
+	private final static String DEFAULT_TO_DIR_LIST_SHIP		= "to foreward,to aft,to starboard,to portside,above you,below,Gate,to forward starboard,to forward port,to aft starboard,to aft portside";
 	private static final String DEFAULT_DIRECTION_CHARS			= "N,S,E,W,U,D,V,NE,NW,SE,SW";
 
 	/* Display order directions.  Include up, down, and gate.  Include -1 to insert the other 4/8 */
@@ -151,6 +151,7 @@ public class Directions
 		{"NOWHERE",Integer.valueOf(GATE)},
 		{"HERE",Integer.valueOf(GATE)},
 		{"THERE",Integer.valueOf(GATE)},
+		{"GATE",Integer.valueOf(GATE)},
 		{"VORTEX",Integer.valueOf(GATE)},
 	};
 
@@ -173,6 +174,7 @@ public class Directions
 		{"NOWHERE",Integer.valueOf(GATE)},
 		{"HERE",Integer.valueOf(GATE)},
 		{"THERE",Integer.valueOf(GATE)},
+		{"GATE",Integer.valueOf(GATE)},
 		{"VORTEX",Integer.valueOf(GATE)}
 	};
 
@@ -337,6 +339,7 @@ public class Directions
 			newChart.add(new Object[]{translator.translate("NOWHERE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("HERE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("THERE"),Integer.valueOf(GATE)});
+			newChart.add(new Object[]{translator.translate("GATE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("VORTEX"),Integer.valueOf(GATE)});
 			DIRECTIONS_COMPASS_CHART = newChart.toArray(new Object[0][]);
 			newChart.clear();
@@ -357,6 +360,7 @@ public class Directions
 			newChart.add(new Object[]{translator.translate("NOWHERE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("HERE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("THERE"),Integer.valueOf(GATE)});
+			newChart.add(new Object[]{translator.translate("GATE"),Integer.valueOf(GATE)});
 			newChart.add(new Object[]{translator.translate("VORTEX"),Integer.valueOf(GATE)});
 			DIRECTIONS_SHIP_CHART = newChart.toArray(new Object[0][]);
 			
