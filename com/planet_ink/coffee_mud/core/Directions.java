@@ -83,8 +83,8 @@ public class Directions
 	public static final int	SOUTHEAST	= 9;
 	public static final int	SOUTHWEST	= 10;
 
-	private final static String	DEFAULT_DIRECTION_7_LETTERS		= "N, S, E, W, U, D, or V";
-	private final static String	DEFAULT_DIRECTION_11_LETTERS	= "N, S, E, W, NE, NW, SE, SW, U, D, or V";
+	private final static String	DEFAULT_DIRECTION_7_LETTERS		= "N, S, E, W, U, D, or GATE";
+	private final static String	DEFAULT_DIRECTION_11_LETTERS	= "N, S, E, W, NE, NW, SE, SW, U, D, or GATE";
 	private final static String	DEFAULT_DIRECTION_7_NAMES		= "North, South, East, West, Up, or Down";
 	private final static String	DEFAULT_DIRECTION_11_NAMES		= "North, South, East, West, Northeast, Northwest, Southeast, Southwest, Up, or Down";
 	private final static String	DEFAULT_DIRECTION_7_SHIPNAMES	= "Foreward, Aft, Starboard, Port, Above, or Below";
@@ -97,7 +97,7 @@ public class Directions
 	private final static String DEFAULT_OF_DIR_LIST_COMPASS		= "north of,south of,east of,west of,above,below,,northeast of,northwest of,southeast of,southwest of";
 	private final static String DEFAULT_TO_DIR_LIST_COMPASS		= "to the north,to the south,to the east,to the west,above you,below,Gate,to the northeast,to the northwest,to the southeast,to the southwest";
 	private final static String DEFAULT_TO_DIR_LIST_SHIP		= "to foreward,to aft,to starboard,to portside,above you,below,Gate,to forward starboard,to forward port,to aft starboard,to aft portside";
-	private static final String DEFAULT_DIRECTION_CHARS			= "N,S,E,W,U,D,V,NE,NW,SE,SW";
+	private static final String DEFAULT_DIRECTION_CHARS			= "N,S,E,W,U,D,G,NE,NW,SE,SW";
 
 	/* Display order directions.  Include up, down, and gate.  Include -1 to insert the other 4/8 */
 	private final static int[]	DIRECTIONS_DISP_ORDER	= { UP, -1, DOWN, GATE };
