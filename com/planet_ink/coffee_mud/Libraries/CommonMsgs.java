@@ -1260,14 +1260,15 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 				int lineLength = mob.playerStats().getWrap();
 				int awareRange = 5;
 				final Vector<String> list=new Vector<String>();
+				string border = String.join("", Collections.nCopies(awareRange + 2, "-"));
 				awarenessA = CMClass.getAbility("Skill_RegionalAwareness");
 				awarenessA.invoke(mob, list, mobLocR, true, awareRange);
-				map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+				map += "^L*" + border + "*\n\r";
 				for(final String mapLine : list)
 				{
 					map += "^L| " + mapLine + " ^L|\r\n";
 				}
-				map += "^L*" + String.join("", Collections.nCopies(awareRange + 2, "-")) + "*\n\r";
+				map += "^L*" + border + "*\n\r";
 			}
 			finalLookStr.append(map);
 			finalLookStr.append("^O^<RName^>" + room.displayText(mob)+"^</RName^>"+CMLib.flags().getDispositionBlurbs(room,mob)+"^L\n\r");
