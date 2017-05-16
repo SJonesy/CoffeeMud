@@ -106,7 +106,7 @@ public interface Room extends PhysicalAgent, ItemPossessor, Places
 	/** Domain type mask denoting whether the room is outdoors, at a seaport @see {@link Room#domainType()} */
 	public final static int DOMAIN_OUTDOORS_SEAPORT=13;
 
-	/** Custom domain types for more available variety on types */
+	/** Custom domain types for more available variety */
 	public final static int DOMAIN_OUTDOORS_ROAD=14;
 	public final static int DOMAIN_OUTDOORS_AREA_CONNECTION=15;
 
