@@ -1053,4 +1053,6 @@ public class ThinRoom implements Room
 	@Override public void setCombatTurnMobIndex(final int index)
 	{
 	}
+
+	@Override public Exit[] getExits() { return exits; };
 }
