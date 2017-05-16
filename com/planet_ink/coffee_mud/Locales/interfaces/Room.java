@@ -1167,4 +1167,8 @@ public interface Room extends PhysicalAgent, ItemPossessor, Places
 	 * @return the mob, item, or exit that matches the search string
 	 */
 	public PhysicalAgent fetchFromMOBRoomFavorsMOBs(MOB mob, Item goodLocation, String thingName, Filterer<Environmental> filter);
+
+	public Exit[] getExits();
 }
+
+

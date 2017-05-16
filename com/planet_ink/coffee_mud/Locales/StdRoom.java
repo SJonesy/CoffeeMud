@@ -108,6 +108,10 @@ public class StdRoom implements Room
 		return new StdRoom();
 	}
 
+	public Exit[] getExits() {
+		return exits;
+	}
+
 	@Override
 	public String roomID()
 	{

@@ -2087,12 +2087,29 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 
 		final boolean useShipNames=((room instanceof BoardableShip)||(room.getArea() instanceof BoardableShip));
 		final StringBuilder buf=new StringBuilder(L("^D[Exits: "));
-		for(int d : Directions.DISPLAY_CODES())
-		{
-			final Exit exit=room.getExitInDir(d);
-			if((exit!=null)&&(exit.viewableText(mob, room.getRoomInDir(d)).length()>0))
-				buf.append("^<EX^>"+(useShipNames?CMLib.directions().getShipDirectionName(d):CMLib.directions().getDirectionName(d))+"^</EX^> ");
+		for (Exit e : room.getExits()) {
+			if (e.displayText() != "") {
+				buf.append("^<EX^>"+e.displayText()+"^</EX^> ");
+			}
+			else {
+				if (useShipNames) {
+					int directionCode = CMLib.directions().getGoodDirectionCode(e.name());
+					buf.append("^<EX^>"+CMLib.directions().getDirectionName(directionCode)+"^</EX^> ");
+				}
+				else {
+					buf.append("^<EX^>"+e.Name()+"^</EX^> ");
+				}
+			}
 		}
+//      I'm not confident the above works, and
+//      this might be necessary for ship names in the future
+//		TODO - SJONES - Test boats
+//		for(int d : Directions.DISPLAY_CODES())
+//		{
+//			final Exit exit=room.getExitInDir(d);
+//			if((exit!=null)&&(exit.viewableText(mob, room.getRoomInDir(d)).length()>0))
+//				buf.append("^<EX^>"+(useShipNames?CMLib.directions().getShipDirectionName(d):CMLib.directions().getDirectionName(d))+"^</EX^> ");
+//		}
 		boolean noBoardableShips = false;
 		if((mob.location() != room)
 		&&(mob.location() != null)
