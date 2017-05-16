@@ -125,6 +125,8 @@ public class Skill_RegionalAwareness extends StdSkill
 			return 'P';
 		case Room.DOMAIN_OUTDOORS_ROAD:
 			return 'y';
+		case Room.DOMAIN_OUTDOORS_AREA_CONNECTION:
+			return 'W';
 		case Room.DOMAIN_INDOORS_STONE:
 			return 'W';
 		case Room.DOMAIN_INDOORS_WOOD:
@@ -184,6 +186,8 @@ public class Skill_RegionalAwareness extends StdSkill
 			return '@';
 		case Room.DOMAIN_OUTDOORS_ROAD:
 			return '+';
+		case Room.DOMAIN_OUTDOORS_AREA_CONNECTION:
+			return '?';
 		case Room.DOMAIN_INDOORS_UNDERWATER:
 			return '~';
 		case Room.DOMAIN_INDOORS_AIR:

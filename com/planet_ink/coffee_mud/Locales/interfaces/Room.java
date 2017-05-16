@@ -108,6 +108,7 @@ public interface Room extends PhysicalAgent, ItemPossessor, Places
 
 	/** Custom domain types for more available variety on types */
 	public final static int DOMAIN_OUTDOORS_ROAD=14;
+	public final static int DOMAIN_OUTDOORS_AREA_CONNECTION=15;
 
 	/** Domain description array indexed by the DOMAIN_OUTDOOR_* constants. @see {@link Room#DOMAIN_OUTDOORS_CITY} */
 	public final static String[] DOMAIN_OUTDOOR_DESCS=
@@ -125,7 +126,9 @@ public interface Room extends PhysicalAgent, ItemPossessor, Places
 		"HILLS",
 		"MOUNTAINS",
 		"SPACEPORT",
-		"SEAPORT"
+		"SEAPORT",
+		"ROAD",
+		"CONNECTOR",
 	};
 
 	/** Domain type mask denoting whether the room is indoors, and made of worked stone @see {@link Room#domainType()} */
