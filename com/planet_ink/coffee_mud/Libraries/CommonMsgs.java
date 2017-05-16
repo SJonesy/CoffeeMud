@@ -2088,16 +2088,18 @@ public class CommonMsgs extends StdLibrary implements CommonCommands
 		final boolean useShipNames=((room instanceof BoardableShip)||(room.getArea() instanceof BoardableShip));
 		final StringBuilder buf=new StringBuilder(L("^D[Exits: "));
 		for (Exit e : room.getExits()) {
-			if (e.displayText() != "") {
-				buf.append("^<EX^>"+e.displayText()+"^</EX^> ");
-			}
-			else {
-				if (useShipNames) {
-					int directionCode = CMLib.directions().getGoodDirectionCode(e.name());
-					buf.append("^<EX^>"+CMLib.directions().getDirectionName(directionCode)+"^</EX^> ");
+			if (e != null) {
+				if (e.displayText() != "") {
+					buf.append("^<EX^>"+e.displayText()+"^</EX^> ");
 				}
 				else {
-					buf.append("^<EX^>"+e.Name()+"^</EX^> ");
+					if (useShipNames) {
+						int directionCode = CMLib.directions().getGoodDirectionCode(e.name());
+						buf.append("^<EX^>"+CMLib.directions().getDirectionName(directionCode)+"^</EX^> ");
+					}
+					else {
+						buf.append("^<EX^>"+e.Name()+"^</EX^> ");
+					}
 				}
 			}
 		}
