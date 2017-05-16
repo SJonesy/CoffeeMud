@@ -51,7 +51,7 @@ public class RoadGrid extends StdGrid
 	@Override
 	public int domainType()
 	{
-		return Room.DOMAIN_OUTDOORS_PLAINS;
+		return Room.DOMAIN_OUTDOORS_ROAD;
 	}
 
 	@Override

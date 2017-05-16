@@ -51,7 +51,7 @@ public class Road extends StdRoom
 	@Override
 	public int domainType()
 	{
-		return Room.DOMAIN_OUTDOORS_PLAINS;
+		return Room.DOMAIN_OUTDOORS_ROAD;
 	}
 
 	public static final Integer[] resourceList={

@@ -51,7 +51,7 @@ public class RoadThinGrid extends StdThinGrid
 	@Override
 	public int domainType()
 	{
-		return Room.DOMAIN_OUTDOORS_PLAINS;
+		return Room.DOMAIN_OUTDOORS_ROAD;
 	}
 
 	@Override
