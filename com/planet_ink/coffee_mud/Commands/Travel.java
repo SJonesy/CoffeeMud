@@ -79,9 +79,9 @@ public class Travel extends Go {
                     targetRoom = newLocation.getRoomInDir(d);
                     CMLib.commands().doCommandFail(mob, origCmds, L("Wheeee inside the For!"));
                     if (targetRoom != null) {
-                        CMLib.commands().doCommandFail(mob, origCmds, L("Wheee, inside the targetRoom != null"));
                         if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
+                                CMLib.commands().doCommandFail(mob, origCmds, L("Wheeee found a happy road!"));
                                 nextDirection = d;
                                 roadCount += 1;
                             }
