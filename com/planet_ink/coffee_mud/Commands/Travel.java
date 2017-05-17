@@ -75,14 +75,15 @@ public class Travel extends Go {
 
                 for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
                     Exit currentExit = newLocation.getRawExit(d);
-                    Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
-
-                    if (targetRoom == null) {
-                        CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()?"));
-                        return false;
-                    }
 
                     if (currentExit != null) {
+                        Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
+
+                        if (targetRoom == null) {
+                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()?"));
+                            return false;
+                        }
+
                         if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
                                 nextDirection = d;
