@@ -67,19 +67,30 @@ public class Travel extends Go {
                 lastDirection = nextDirection;
 
                 Room newLocation = mob.location();
+                if (newLocation == null) {
+                    CMLib.commands().doCommandFail(mob, origCmds, L("Null room object after movement?"));
+                    return false;
+                }
                 int roadCount = 0;
 
                 for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
                     Exit currentExit = newLocation.getRawExit(d);
+                    Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
+
+                    if (targetRoom == null) {
+                        CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()?"));
+                        return false;
+                    }
+
                     if (currentExit != null) {
-                        if (CMLib.map().getTargetRoom(newLocation, currentExit).domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
+                        if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
                                 nextDirection = d;
                                 roadCount += 1;
                             }
                         }
 
-                        if (CMLib.map().getTargetRoom(newLocation, currentExit).domainType() == Room.DOMAIN_OUTDOORS_AREA_CONNECTION) {
+                        if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_AREA_CONNECTION) {
                             return false;
                         }
 
