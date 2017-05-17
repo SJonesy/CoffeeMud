@@ -97,7 +97,7 @@ public class Travel extends Go {
                     }
                 }
 
-                if (roadCount <= 1) {
+                if (roadCount < 1) {
                     return false;
                 }
             }
