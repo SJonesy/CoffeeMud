@@ -75,13 +75,11 @@ public class Travel extends Go {
                 }
                 int roadCount = 0;
 
-                for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
+                for (int d = 0; d <= Directions.NUM_DIRECTIONS() - 1; d++) {
                     targetRoom = newLocation.getRoomInDir(d);
-                    CMLib.commands().doCommandFail(mob, origCmds, L("Wheeee inside the For!"));
                     if (targetRoom != null) {
                         if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
-                                CMLib.commands().doCommandFail(mob, origCmds, L("Wheeee found a happy road!"));
                                 nextDirection = d;
                                 roadCount += 1;
                             }
