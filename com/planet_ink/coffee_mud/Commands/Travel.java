@@ -17,6 +17,7 @@ import com.planet_ink.coffee_mud.Races.interfaces.*;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by ABeaumont on 05/16/2017.
@@ -63,10 +64,10 @@ public class Travel extends Go {
             return false;
         } else {
             while (!shitHappened) {
-                CMLib.tracking().walk(mob, nextDirection, false, true, false);
+                CMLib.tracking().walk(mob, nextDirection, false, false, false);
                 lastDirection = nextDirection;
-
                 Room newLocation = mob.location();
+
                 if (newLocation == null) {
                     CMLib.commands().doCommandFail(mob, origCmds, L("Null room object after movement?"));
                     return false;
@@ -80,7 +81,7 @@ public class Travel extends Go {
                         Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
 
                         if (targetRoom == null) {
-                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()? Location: " + newLocation.name() + " Exit: " + currentExit.name() + " "));
+                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()? Location: " + newLocation.roomID() + " Exit: " + currentExit.name() + " "));
                             return false;
                         }
 
