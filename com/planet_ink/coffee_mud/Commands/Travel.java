@@ -78,7 +78,7 @@ public class Travel extends Go {
                     Exit currentExit = newLocation.getRawExit(d);
 
                     if (currentExit != null) {
-                        Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
+                        Room targetRoom = newLocation.getRoomInDir(d);
 
                         if (targetRoom == null) {
                             CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()? Location: " + newLocation.roomID() + " Exit: " + currentExit.name() + " "));
