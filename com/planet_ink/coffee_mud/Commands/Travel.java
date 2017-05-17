@@ -80,7 +80,7 @@ public class Travel extends Go {
                         Room targetRoom = CMLib.map().getTargetRoom(newLocation, currentExit);
 
                         if (targetRoom == null) {
-                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()?"));
+                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()? Location: " + newLocation.name() + " Exit: " + currentExit.name() + " "));
                             return false;
                         }
 
