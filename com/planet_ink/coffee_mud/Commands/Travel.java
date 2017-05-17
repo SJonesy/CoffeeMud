@@ -57,6 +57,7 @@ public class Travel extends Go {
         boolean shitHappened = false;
         int lastDirection;
         int nextDirection = direction;
+        Room newLocation;
 
         if (CMLib.map().getTargetRoom(mob.location(), mob.location().getExitInDir(direction)).domainType() != Room.DOMAIN_OUTDOORS_ROAD) {
             CMLib.commands().doCommandFail(mob, origCmds, L("There is no road in that direction."));
@@ -65,7 +66,7 @@ public class Travel extends Go {
             while (!shitHappened) {
                 CMLib.tracking().walk(mob, nextDirection, false, false, false);
                 lastDirection = nextDirection;
-                Room newLocation = mob.location();
+                newLocation = mob.location();
 
                 if (newLocation == null) {
                     CMLib.commands().doCommandFail(mob, origCmds, L("Null room object after movement?"));
@@ -90,7 +91,7 @@ public class Travel extends Go {
                         if (roadCount > 1) {
                             return false;
                         }
-                    } 
+                    }
                 }
 
                 if (roadCount <= 1) {
