@@ -28,24 +28,24 @@ public class Travel extends Go {
     private final String[] access=I(new String[]{"TRAVEL","TR","TRA"});
     @Override public String[] getAccessWords(){return access;}
     @Override
-    public boolean execute(MOB mob, List<String> commands, int metaFlags) throws java.io.IOException    {
-        Vector<String> origCmds=new XVector<String>(commands);
+    public boolean execute(MOB mob, List<String> commands, int metaFlags) throws java.io.IOException {
+        Vector<String> origCmds = new XVector<String>(commands);
         if (commands.size() < 2) {
-            CMLib.commands().doCommandFail(mob, origCmds,L("Travel in which direction?"));
+            CMLib.commands().doCommandFail(mob, origCmds, L("Travel in which direction?"));
             return false;
         }
 
-        if(!standIfNecessary(mob,metaFlags, true))
+        if (!standIfNecessary(mob, metaFlags, true))
             return false;
 
-        final String dirArg = commands.get(commands.size()-1);
-        final int direction=CMLib.directions().getGoodDirectionCode(dirArg);
-        if(direction<0)
-        {
-            mob.tell(L("You have failed to specify a direction.  Try @x1.\n\r",Directions.LETTERS()));
-            mob.location().showOthers(mob,null,CMMsg.MSG_OK_ACTION,L("<S-NAME> seems ready to travel, but looks around confused instead."));
+        final String dirArg = commands.get(commands.size() - 1);
+        final int direction = CMLib.directions().getGoodDirectionCode(dirArg);
+        if (direction < 0) {
+            mob.tell(L("You have failed to specify a direction.  Try @x1.\n\r", Directions.LETTERS()));
+            mob.location().showOthers(mob, null, CMMsg.MSG_OK_ACTION, L("<S-NAME> seems ready to travel, but looks around confused instead."));
             return false;
         }
+
         /** TODO:   Implement check for DOMAIN_OUTDOORS_ROAD in direction of travel, then loop movement as long as
          *  TODO:        a) At least one other exit other than direction arrived from of type DOMAIN_OUTDOORS_ROAD
          *  TODO:        b) Not more than one other exit other than direction arrived from of type DOMAIN_OUTDOORS_ROAD
@@ -54,8 +54,50 @@ public class Travel extends Go {
          *  TODO:   If any of these criteria fail, then return false (halt).
          */
 
+        boolean shitHappened = false;
+        int lastDirection;
+        int nextDirection = direction;
+
+        if (CMLib.map().getTargetRoom(mob.location(), mob.location().getExitInDir(direction)).domainType() != Room.DOMAIN_OUTDOORS_ROAD) {
+            CMLib.commands().doCommandFail(mob, origCmds, L("There is no road in that direction."));
+            return false;
+        } else {
+            while (!shitHappened) {
+                CMLib.tracking().walk(mob, nextDirection, false, true, false);
+                lastDirection = nextDirection;
+
+                Room newLocation = mob.location();
+                int roadCount = 0;
+
+                for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
+                    Exit currentExit = newLocation.getRawExit(d);
+                    if (currentExit != null) {
+                        if (CMLib.map().getTargetRoom(newLocation, currentExit).domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
+                            if (d != Directions.OPPOSITES[lastDirection]) {
+                                nextDirection = d;
+                                roadCount += 1;
+                            }
+                        }
+
+                        if (CMLib.map().getTargetRoom(newLocation, currentExit).domainType() == Room.DOMAIN_OUTDOORS_AREA_CONNECTION) {
+                            return false;
+                        }
+
+                        if (roadCount > 1) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (roadCount <= 1) {
+                    return false;
+                }
+            }
+        }
         return false;
     }
+
+
     @Override public boolean canBeOrdered(){return true;}
 
     @Override

@@ -83,6 +83,9 @@ public class Directions
 	public static final int	SOUTHEAST	= 9;
 	public static final int	SOUTHWEST	= 10;
 
+	public static final int[] OPPOSITES = { SOUTH, NORTH, WEST, EAST, DOWN, UP, GATE,
+											SOUTHWEST, SOUTHEAST, NORTHWEST, NORTHEAST };
+
 	private final static String	DEFAULT_DIRECTION_7_LETTERS		= "N, S, E, W, U, D, or GATE";
 	private final static String	DEFAULT_DIRECTION_11_LETTERS	= "N, S, E, W, NE, NW, SE, SW, U, D, or GATE";
 	private final static String	DEFAULT_DIRECTION_7_NAMES		= "North, South, East, West, Up, or Down";
