@@ -54,7 +54,6 @@ public class Travel extends Go {
          *  TODO:        d) No failure due to lack of movement points or combat.
          *  TODO:   If any of these criteria fail, then return false (halt).
          */
-
         boolean shitHappened = false;
         int lastDirection;
         int nextDirection = direction;
@@ -75,16 +74,8 @@ public class Travel extends Go {
                 int roadCount = 0;
 
                 for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
-                    Exit currentExit = newLocation.getRawExit(d);
-
-                    if (currentExit != null) {
-                        Room targetRoom = newLocation.getRoomInDir(d);
-
-                        if (targetRoom == null) {
-                            CMLib.commands().doCommandFail(mob, origCmds, L("Null room object returned by CMLib.map().getTargetRoom()? Location: " + newLocation.roomID() + " Exit: " + currentExit.name() + " "));
-                            return false;
-                        }
-
+                    Room targetRoom = newLocation.getRoomInDir(d);
+                    if (targetRoom != null) {
                         if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
                                 nextDirection = d;
@@ -99,7 +90,7 @@ public class Travel extends Go {
                         if (roadCount > 1) {
                             return false;
                         }
-                    }
+                    } 
                 }
 
                 if (roadCount <= 1) {
