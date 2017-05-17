@@ -58,6 +58,7 @@ public class Travel extends Go {
         int lastDirection;
         int nextDirection = direction;
         Room newLocation;
+        Room targetRoom;
 
         if (CMLib.map().getTargetRoom(mob.location(), mob.location().getExitInDir(direction)).domainType() != Room.DOMAIN_OUTDOORS_ROAD) {
             CMLib.commands().doCommandFail(mob, origCmds, L("There is no road in that direction."));
@@ -75,7 +76,7 @@ public class Travel extends Go {
                 int roadCount = 0;
 
                 for (int d = 0; d < Directions.NUM_DIRECTIONS() - 1; d++) {
-                    Room targetRoom = newLocation.getRoomInDir(d);
+                    targetRoom = newLocation.getRoomInDir(d);
                     if (targetRoom != null) {
                         if (targetRoom.domainType() == Room.DOMAIN_OUTDOORS_ROAD) {
                             if (d != Directions.OPPOSITES[lastDirection]) {
