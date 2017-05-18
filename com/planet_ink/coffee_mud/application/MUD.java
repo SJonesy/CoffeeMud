@@ -1897,9 +1897,10 @@ public class MUD extends Thread implements MudHost
 			nameID="CoffeeMud";
 		String iniFile=iniFiles.firstElement();
 		final CMProps page=CMProps.loadPropPage("//"+iniFile);
+		String logFileLocation = page.getStr("LOGFILE");
 		if ((page==null)||(!page.isLoaded()))
 		{
-			Log.instance().configureLogFile("mud",1);
+			Log.instance().configureLogFile(logFileLocation,1);
 			Log.instance().configureLog(Log.Type.info, "BOTH");
 			Log.instance().configureLog(Log.Type.error, "BOTH");
 			Log.instance().configureLog(Log.Type.warning, "BOTH");
@@ -1915,7 +1916,7 @@ public class MUD extends Thread implements MudHost
 			return;
 		}
 		Log.shareWith(MudHost.MAIN_HOST);
-		Log.instance().configureLogFile("mud",page.getInt("NUMLOGS"));
+		Log.instance().configureLogFile(logFileLocation,page.getInt("NUMLOGS"));
 		Log.instance().configureLog(Log.Type.info, page.getStr("SYSMSGS"));
 		Log.instance().configureLog(Log.Type.error, page.getStr("ERRMSGS"));
 		Log.instance().configureLog(Log.Type.warning, page.getStr("WRNMSGS"));
