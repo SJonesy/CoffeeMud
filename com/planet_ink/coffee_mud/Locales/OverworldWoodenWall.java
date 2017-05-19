@@ -25,7 +25,7 @@ public class OverworldWoodenWall extends StdRoom
         return "OverworldWoodenWall";
     }
 
-    public OverworldStoneWall()
+    public OverworldWoodenWall()
     {
         super();
         name="A Wooden Wall";
