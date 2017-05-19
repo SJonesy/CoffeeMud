@@ -1,5 +1,6 @@
 GIVE_PROG p a book about vampires
     mpsetinternal NODELAY true
     mpecho Phillip mutters... "Sweet..." as he hands you a bent key.
-    mpat $n mpoload a bent key
+    mpoload a bent key
+    give "a bent key" "$n"
 ~
