@@ -1,0 +1,4 @@
+GIVE_PROG p a book about vampires
+    mpecho Sweet.
+    mpmoney $n +500 gold coins
+~
