@@ -1,4 +1,5 @@
 GIVE_PROG p a book about vampires
-    mpecho Phillip mutters... "Sweet..." $n and $t
+    mpecho Phillip mutters... "Sweet..." as he slips you some cash.
+    mpecho You have gained 500 gold.
     mpmoney $n +500 gold coins
 ~
