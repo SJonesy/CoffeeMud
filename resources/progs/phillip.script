@@ -1,5 +1,5 @@
 GIVE_PROG p a book about vampires
-    mpecho Phillip mutters... "Sweet..." as he slips you some cash.
-    mpecho You have gained 500 gold.
-    mpmoney $n +500 gold coins
+    mpsetinternal NODELAY true
+    mpecho Phillip mutters... "Sweet..." as he hands you a bent key.
+    mpat $n mpoload a bent key
 ~
